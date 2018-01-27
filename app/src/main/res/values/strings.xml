@@ -1,0 +1,7 @@
+<resources>
+    <string name="app_name">Suncorp Test</string>
+    <string name="account_name">Suncorp Test Account</string>
+	<string name="account_type">private-ddc1b2-transactions14.apiary-mock.com</string>
+	<string name="authorities">com.kizio.suncorptest.provider</string>
+	<string name="uri">com.kizio.suncorptest.provider/statement</string>
+</resources>
