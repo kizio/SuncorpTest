@@ -3,6 +3,7 @@ package com.kizio.suncorptest.sync
 import android.accounts.Account
 import android.content.AbstractThreadedSyncAdapter
 import android.content.ContentProviderClient
+import android.content.ContentResolver
 import android.content.Context
 import android.content.SyncResult
 import android.os.Bundle
@@ -19,7 +20,15 @@ import com.kizio.suncorptest.data.StatementItem
  * @author Graeme Sutherland
  * @since 25/01/2018
  */
-class StatementSyncAdapter(context: Context) : AbstractThreadedSyncAdapter(context, true, false) {
+class StatementSyncAdapter(context: Context, autoInitialize: Boolean, allowParallelSyncs: Boolean)
+	: AbstractThreadedSyncAdapter(context, autoInitialize, allowParallelSyncs) {
+
+	/**
+	 * Secondary constructor to maintain backwards compatibility. (Not sure if this is needed.)
+	 */
+	constructor(context: Context, autoInitialize: Boolean): this(context, autoInitialize, false)
+
+	private val contentResolver: ContentResolver = context.contentResolver
 
 	/**
 	 * Invoked when a sync operation is to be performed.
@@ -35,7 +44,7 @@ class StatementSyncAdapter(context: Context) : AbstractThreadedSyncAdapter(conte
 		val items: Array<StatementItem>? = StatementDownloader.downloadStatements()
 
 		if (items != null) {
-
+			val resolver: ContentResolver = context.contentResolver
 		}
 	}
 }

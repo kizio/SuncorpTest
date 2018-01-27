@@ -15,12 +15,16 @@ class SyncService : Service() {
 	/**
 	 * The [StatementSyncAdapter] used to synchronise the contents of the app's database.
 	 */
-	val mAdapter: StatementSyncAdapter = StatementSyncAdapter(this)
+	val mAdapter: StatementSyncAdapter = StatementSyncAdapter(this.applicationContext, true, true)
 
 	/**
 	 * The [AbstractAccountAuthenticator] used to authenticate the user to the remote webservice.
 	 */
 	private val mAuthenticator : AbstractAccountAuthenticator = StubAuthenticator(this)
+
+	override fun onCreate() {
+		super.onCreate()
+	}
 
 	/**
 	 * Invoked when the [Service] is bound.

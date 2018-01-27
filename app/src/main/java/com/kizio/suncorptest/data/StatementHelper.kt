@@ -12,66 +12,8 @@ import android.database.sqlite.SQLiteOpenHelper
  *
  * @param context The [Context] the helper object is running in
  */
-class StatementHelper(context : Context) : SQLiteOpenHelper(context, STATEMENT_DATABASE, null, VERSION) {
-
-	/**
-	 * Holds constant values for the [SQLiteOpenHelper].
-	 * <p>
-	 * I wouldn't hardcode these in production code! :)
-	 * </p>
-	 */
-	companion object {
-
-		/**
-		 * The filename of the file used to save the database in.
-		 */
-		private const val STATEMENT_DATABASE: String = "accountStatement"
-
-		/**
-		 * The database table holding the account statement.
-		 */
-		const val STATEMENT_TABLE : String = "statement"
-
-		/**
-		 * The ID column in the database.
-		 */
-		const val ID_KEY : String = "id"
-
-		/**
-		 * The description column in the database.
-		 */
-		private const val DESCRIPTION_KEY : String = "description"
-
-		/**
-		 * The amount column in the database.
-		 */
-		private const val AMOUNT_KEY : String = "amount"
-
-		/**
-		 * The date column in the database.
-		 */
-		private const val DATE_KEY : String = "effectiveDate"
-
-		/**
-		 * Canned SQL code to create the statement table.
-		 */
-		private const val CREATE_STATEMENT_TABLE : String = """
-				CREATE TABLE $STATEMENT_TABLE (
-					$ID_KEY INTEGER PRIMARY KEY,
-					$DESCRIPTION_KEY TEXT NOT NULL,
-					$AMOUNT_KEY REAL NOT NULL,
-					$DATE_KEY INTEGER NOT NULL)"""
-
-		/**
-		 * Canned SQL code to drop the statement table.
-		 */
-		private const val DROP_STATEMENT_TABLE : String = "DROP TABLE IF EXISTS " + STATEMENT_TABLE
-
-		/**
-		 * The version of the database. It's always 1.
-		 */
-		private const val VERSION : Int = 1
-	}
+class StatementHelper(context : Context) : SQLiteOpenHelper(context,
+		StatementContract.STATEMENT_DATABASE, null, StatementContract.VERSION) {
 
 	/**
 	 * Called when the database is created for the first time.
@@ -79,9 +21,7 @@ class StatementHelper(context : Context) : SQLiteOpenHelper(context, STATEMENT_D
 	 * @param db The [SQLiteDatabase] in which the database is being created
 	 */
 	override fun onCreate(db: SQLiteDatabase?) {
-		if (db != null) {
-			db.execSQL(CREATE_STATEMENT_TABLE);
-		}
+		db?.execSQL(StatementContract.CREATE_STATEMENT_TABLE)
 	}
 
 	/**
@@ -98,7 +38,7 @@ class StatementHelper(context : Context) : SQLiteOpenHelper(context, STATEMENT_D
 	 */
 	override fun onUpgrade(db: SQLiteDatabase?, oldVersion: Int, newVersion: Int) {
 		if (db != null && oldVersion != newVersion) {
-			db.execSQL(DROP_STATEMENT_TABLE)
+			db.execSQL(StatementContract.DROP_STATEMENT_TABLE)
 
 			onCreate(db)
 		}

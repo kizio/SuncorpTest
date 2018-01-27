@@ -1,8 +1,12 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
-    package="com.kizio.suncorptest">
+	xmlns:tools="http://schemas.android.com/tools"
+	package="com.kizio.suncorptest">
 
+	<uses-permission android:name="android.permission.AUTHENTICATE_ACCOUNTS" />
 	<uses-permission android:name="android.permission.INTERNET" />
+	<uses-permission android:name="android.permission.READ_SYNC_SETTINGS" />
+	<uses-permission android:name="android.permission.WRITE_SYNC_SETTINGS" />
 
     <application
         android:allowBackup="false"
@@ -10,7 +14,8 @@
         android:label="@string/app_name"
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
-        android:theme="@style/AppTheme">
+        android:theme="@style/AppTheme"
+		tools:ignore="GoogleAppIndexingWarning">
 
         <activity android:name=".MainActivity">
             <intent-filter>
@@ -22,10 +27,12 @@
 
 		<service
 			android:name="com.kizio.suncorptest.sync.SyncService"
-			android:exported="false">
+			android:exported="false"
+			android:process=":sync">
 
 			<intent-filter>
 				<action android:name="android.accounts.AccountAuthenticator"/>
+				<action android:name="android.content.SyncAdapter"/>
 			</intent-filter>
 
 			<meta-data
@@ -38,8 +45,8 @@
 		</service>
 
 		<provider
-			android:name="com.kizio.suncorptest.data.StatementContentProvider"
-			android:authorities="@string/authorities"
+			android:name="com.kizio.suncorptest.data.StatementProvider"
+			android:authorities="@string/authority"
 			android:exported="false"
 			android:syncable="true"/>
     </application>
