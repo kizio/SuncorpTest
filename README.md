@@ -8,21 +8,44 @@ The specification required the app not trigger off a second download if the devi
 
 The sensible solution would have been to use a `Service` backed up by a `Thread` to keep the download off the main UI thread. But the spec mentioned using a database, which would have added a layer of complexity.
 
-RxJava might have been an option, but I've taken a brief look at the description on the website, and didn't want to learn a new API and a new language at the same time.
+RxJava might have been an option, but I've taken a brief look at the description on the website and didn't want to learn a new API and a new language at the same time.
 
 I decided to use a `SyncAdapter` backed up by a `ContentProvider`. This has been a rod to beat my own back with.
 
-For a full-blown app, I'd argue they're the way to go, as you can leverage a lot of code to schedule updates that are in the API. But they're a singificant amount of work to put together.
+For a full-blown app, I'd argue they're the way to go, as you can leverage a lot of code to schedule updates that are in the API. But they're a significant amount of work to put together.
 
 It's possible that there are better solutions out there. Server comms are normally one of the first things that are done on a project, and typically written once. As a contractor I often join a team a few weeks in, so the work's completed by then.
 
+## Current Status
+
+### Synchronisation
+
+The `SyncAdapter` isn't being triggered. I'm not sure why, but I think that there's a problem with the configuration. Having spent several hours on Sunday looking at it, I'm still none the wiser.
+
+My guess is that part of the configuration is wrong. The `SyncAdapter` documentation on the Android developer's site sometimes is neither particularly clear, nor that complete.
+
+That said, I haven't worked with that API for several years, so I might be missing something.
+
+### StatememtAsyncTask
+
+This is a placeholder for the synchronisation code. It's there to test that the download code is working.
+
+If I get the `SyncAdapter` working, it'll be pulled out.
+
+### UI
+
+This is currently very basic. It doesn't even meet the requirements of the test. I'm missing a header row (saying what each column does), and a Totals row.
+
+### Rotation
+
+The download is restarted when the device is rotated. If I get the `SyncAdapter` working, it'll be easy to fix.
+
 ## Criticisms
 
-From my point of view, this kind of test several major flaws:
+The trouble with this project is that it's taken a lot longer than I thought or was estimated. I was told that it'd take three to five hours. I'm probably pushing fifteen at this point, and I'm still not finished.
 
-1. It's a huge amount of work. As a candidate, I think that anything that lasts more than a couple of hours is a disproportionate amount of effort for a first or second round of an interview process. Most of the times, I reject a company that asks me to do one.
-2. It's not an interesting piece of software to write. Mostly it shows that either you can follow a bunch of tutorials (e.g. on Stack Overflow or the Android Developer site), rather than engaging in any clever engineering. For example, you've got no idea how I'd structure a class hierarchy, or even if I get how to use things like virtual functions.
-3. Because it's being done in a tight timeframe, it's not going to be production ready code. I'm skipping tests, and haven't bothered adding a decent logging framework because that'd take a few more hours to implement.
-4. These tests always take a lot longer than the two or three hours that I'm told they'll take. Especially when they require learning a new language to complete it. (This is my first time with Kotlin, and I don't think that I'm following conventions entirely correctly.)
+I think that this is for several reasons:
 
-You could have asked me how I'd approach the problem, and discussed trade-offs. If I sent you a link to an existing project, you'd have a rough idea of my coding style. And this wouldn't have taken a weekend to do.
+1. I didn't have much existing code that I could reuse for this project, so everything had to be written from scratch.
+2. I was requested to write it in Kotlin, which is a language I haven't used before, and was largely unfamiliar with. I still don't feel fluent with it, and I still need to figure out some of its conventions. But it meant that I regularly had to stop to look up answers to the basic syntax.
+3. I've not coded much recently, so I'm a bit rusty.
