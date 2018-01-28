@@ -4,7 +4,6 @@ import android.accounts.AbstractAccountAuthenticator
 import android.app.Service
 import android.content.Intent
 import android.os.IBinder
-import android.util.Log
 
 /**
  * A [Service] that handles the synchronisation operation.
@@ -20,8 +19,6 @@ class SyncService : Service() {
 
 	override fun onCreate() {
 		super.onCreate()
-
-		Log.e("SyncService", "onCreate() invoked")
 
 		if (mAdapter == null) {
 			StatementSyncAdapter(this.applicationContext, true, true)

@@ -1,6 +1,7 @@
 package com.kizio.suncorptest.data
 
 import android.database.Cursor
+import android.net.Uri
 
 /**
  * Provides the contract that is used to access the Statement table in the database.
@@ -14,12 +15,12 @@ class StatementContract {
 	 */
 	companion object {
 		/**
-		 * Constant representing the URI to the database.
+		 * Constant representing the URL to the database.
 		 */
-		const val URI: String = "com.kizio.suncorptest.provider"
+		const val URL: String = "com.kizio.suncorptest.provider"
 
 		/**
-		 * Relative path in the URI to get to the statement table.
+		 * Relative path in the URL to get to the statement table.
 		 */
 
 		/**
@@ -33,14 +34,19 @@ class StatementContract {
 		const val STATEMENT_TABLE : String = "statement"
 
 		/**
-		 * MIME type for a single row of the statement table.
+		 * Pre-created [Uri] that contains the URL for the database.
 		 */
-		const val MIME_STATEMENT_ITEM: String = VND_CURSOR + "item/vnd." + URI + "." + STATEMENT_TABLE
+		val URI: Uri = Uri.parse("content://$URL/$STATEMENT_TABLE")
 
 		/**
 		 * MIME type for a single row of the statement table.
 		 */
-		const val MIME_STATEMENT_LIST: String = VND_CURSOR + "dir/vnd." + URI + "." + STATEMENT_TABLE
+		const val MIME_STATEMENT_ITEM: String = VND_CURSOR + "item/vnd." + URL + "." + STATEMENT_TABLE
+
+		/**
+		 * MIME type for a single row of the statement table.
+		 */
+		const val MIME_STATEMENT_LIST: String = VND_CURSOR + "dir/vnd." + URL + "." + STATEMENT_TABLE
 
 		/**
 		 * The code for a single row in the statement table.
@@ -78,15 +84,17 @@ class StatementContract {
 		 */
 		const val DATE_KEY : String = "effectiveDate"
 
+		val PROJECTION : Array<String> = arrayOf(ID_KEY, DATE_KEY, DESCRIPTION_KEY, AMOUNT_KEY)
+
 		/**
 		 * Canned SQL code to create the statement table.
 		 */
 		const val CREATE_STATEMENT_TABLE : String = """
 				CREATE TABLE $STATEMENT_TABLE (
 					$ID_KEY INTEGER PRIMARY KEY,
+					$DATE_KEY DATETIME NOT NULL,
 					$DESCRIPTION_KEY TEXT NOT NULL,
-					$AMOUNT_KEY REAL NOT NULL,
-					$DATE_KEY DATETIME NOT NULL)"""
+					$AMOUNT_KEY REAL NOT NULL)"""
 
 		/**
 		 * Canned SQL code to drop the statement table.
@@ -97,6 +105,5 @@ class StatementContract {
 		 * The version of the database. It's always 1.
 		 */
 		const val VERSION : Int = 1
-
 	}
 }

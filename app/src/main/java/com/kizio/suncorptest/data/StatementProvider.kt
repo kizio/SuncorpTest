@@ -38,16 +38,34 @@ class StatementProvider : ContentProvider() {
 	 */
 	init {
 		/**
-		 * URI that matches multiple rows in the table.
+		 * URL that matches a single row in the table, where the # is a wildcard for its number.
 		 */
-		uriMatcher.addURI(StatementContract.URI, StatementContract.STATEMENT_TABLE,
+		uriMatcher.addURI(StatementContract.URL, StatementContract.STATEMENT_TABLE + "/#",
 				StatementContract.STATEMENT_ITEM)
 
 		/**
-		 * URI that matches a single row in the table, where the # is a wildcard for its number.
+		 * URL that matches multiple rows in the table.
 		 */
-		uriMatcher.addURI(StatementContract.URI, StatementContract.STATEMENT_TABLE + "/#",
+		uriMatcher.addURI(StatementContract.URL, StatementContract.STATEMENT_TABLE,
 				StatementContract.STATEMENT_LIST)
+	}
+
+	/**
+	 * Invoked when the content provider is created.
+	 *
+	 * @return True if the provider was successfully loaded, false otherwise
+	 */
+	override fun onCreate(): Boolean {
+		val result : Boolean
+
+		if (context != null) {
+			mHelper = StatementHelper(context)
+			result = true
+		} else {
+			result = false
+		}
+
+		return result
 	}
 
 	/**
@@ -103,24 +121,6 @@ class StatementProvider : ContentProvider() {
 	}
 
 	/**
-	 * Invoked when the content provider is created.
-	 *
-	 * @return True if the provider was successfully loaded, false otherwise
-	 */
-	override fun onCreate(): Boolean {
-		val result : Boolean
-
-		if (context != null) {
-			mHelper = StatementHelper(context)
-			result = true
-		} else {
-			result = false
-		}
-
-		return result
-	}
-
-	/**
 	 * Updates the specified values in the table.
 	 *
 	 * @param uri The [Uri] to query
@@ -153,7 +153,7 @@ class StatementProvider : ContentProvider() {
 	/**
 	 * Deletes one or more rows from the database.
 	 *
-	 * @param uri The full URI to query, including a row ID (if a specific record is requested).
+	 * @param uri The full URL to query, including a row ID (if a specific record is requested).
 	 * @param selection An optional restriction to apply to rows when deleting.
 	 * @return The number of rows deleted
 	 */

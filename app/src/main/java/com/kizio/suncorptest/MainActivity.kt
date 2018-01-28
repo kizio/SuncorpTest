@@ -32,6 +32,10 @@ class MainActivity : AppCompatActivity() {
 		setContentView(R.layout.activity_main)
 
 		initialiseAccount()
+
+		initialiseGrid()
+
+		StatememtAsyncTask(this, findViewById(R.id.grid_view)).execute()
 	}
 
 	/**
@@ -39,14 +43,14 @@ class MainActivity : AppCompatActivity() {
 	 */
 	private fun initialiseAccount() {
 		if (account == null) {
-			val manager: AccountManager? = getSystemService(Context.ACCOUNT_SERVICE) as? AccountManager
+			val manager = getSystemService(Context.ACCOUNT_SERVICE) as AccountManager
+			val authority = getString(R.string.authority)
 			account = Account(getString(R.string.account_name), getString(R.string.account_type))
 
-			if (manager != null) {
-				manager.addAccountExplicitly(account, null, null)
-			}
+			manager.addAccountExplicitly(account, null, null)
 
-			ContentResolver.setSyncAutomatically(account, getString(R.string.authority), true);
+			ContentResolver.setSyncAutomatically(account, authority, true)
+			ContentResolver.setIsSyncable(account, authority, 1)
 		}
 
 		val syncExtras = Bundle()
@@ -55,5 +59,10 @@ class MainActivity : AppCompatActivity() {
 		syncExtras.putBoolean(ContentResolver.SYNC_EXTRAS_EXPEDITED, true)
 
 		ContentResolver.requestSync(account, getString(R.string.authority), syncExtras)
+	}
+
+
+	private fun initialiseGrid() {
+
 	}
 }

@@ -10,7 +10,7 @@
         android:id="@+id/grid_view"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-		android:numColumns="3"
+		android:numColumns="@integer/columns"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintLeft_toLeftOf="parent"
         app:layout_constraintRight_toRightOf="parent"
