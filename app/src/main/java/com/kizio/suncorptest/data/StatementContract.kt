@@ -65,9 +65,10 @@ class StatementContract {
 		const val STATEMENT_DATABASE: String = "accountStatement"
 
 		/**
-		 * The ID column in the database.
+		 * The ID column in the database. This is named as "_id" to make it usable in a cursor
+		 * adapter.
 		 */
-		const val ID_KEY : String = "id"
+		const val ID_KEY : String = "_id"
 
 		/**
 		 * The description column in the database.
@@ -84,6 +85,9 @@ class StatementContract {
 		 */
 		const val DATE_KEY : String = "effectiveDate"
 
+		/**
+		 * Standard projection of the columns to retrieve in a query.
+		 */
 		val PROJECTION : Array<String> = arrayOf(ID_KEY, DATE_KEY, DESCRIPTION_KEY, AMOUNT_KEY)
 
 		/**
