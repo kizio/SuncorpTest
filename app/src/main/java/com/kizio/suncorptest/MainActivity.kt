@@ -45,6 +45,8 @@ class MainActivity : AppCompatActivity() {
 			if (manager != null) {
 				manager.addAccountExplicitly(account, null, null)
 			}
+
+			ContentResolver.setSyncAutomatically(account, getString(R.string.authority), true);
 		}
 
 		val syncExtras = Bundle()

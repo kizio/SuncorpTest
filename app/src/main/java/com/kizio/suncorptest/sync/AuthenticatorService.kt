@@ -4,27 +4,25 @@ import android.accounts.AbstractAccountAuthenticator
 import android.app.Service
 import android.content.Intent
 import android.os.IBinder
-import android.util.Log
 
 /**
- * A [Service] that handles the synchronisation operation.
+ * A [Service] that handles the authentication operation.
  *
  * @author Graeme Sutherland
- * @since 25/01/2018
+ * @since 28/01/2018
  */
-class SyncService : Service() {
+class AuthenticatorService : Service() {
+
 	/**
-	 * The [StatementSyncAdapter] used to synchronise the contents of the app's database.
+	 * The [AbstractAccountAuthenticator] used to authenticate the user to the remote webservice.
 	 */
-	private var mAdapter: StatementSyncAdapter? = null
+	private var mAuthenticator : AbstractAccountAuthenticator? = null
 
 	override fun onCreate() {
 		super.onCreate()
 
-		Log.e("SyncService", "onCreate() invoked")
-
-		if (mAdapter == null) {
-			StatementSyncAdapter(this.applicationContext, true, true)
+		if (mAuthenticator == null) {
+			mAuthenticator = StubAuthenticator(this)
 		}
 	}
 
@@ -35,6 +33,6 @@ class SyncService : Service() {
 	 * @return The [IBinder] from the [AbstractAccountAuthenticator] used to bind the [Service]
 	 */
 	override fun onBind(intent: Intent?): IBinder? {
-		return mAdapter?.syncAdapterBinder
+		return mAuthenticator?.iBinder
 	}
 }

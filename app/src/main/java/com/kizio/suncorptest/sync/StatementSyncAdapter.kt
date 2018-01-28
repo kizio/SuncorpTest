@@ -24,7 +24,7 @@ class StatementSyncAdapter(context: Context, autoInitialize: Boolean, allowParal
 	: AbstractThreadedSyncAdapter(context, autoInitialize, allowParallelSyncs) {
 
 	/**
-	 * Secondary constructor to maintain backwards compatibility. (Not sure if this is needed.)
+	 * Secondary constructor to maintain backwards compatibility.
 	 */
 	constructor(context: Context, autoInitialize: Boolean): this(context, autoInitialize, false)
 

@@ -27,27 +27,36 @@
 
 		<service
 			android:name="com.kizio.suncorptest.sync.SyncService"
-			android:exported="false"
+			android:exported="true"
 			android:process=":sync">
 
 			<intent-filter>
-				<action android:name="android.accounts.AccountAuthenticator"/>
 				<action android:name="android.content.SyncAdapter"/>
 			</intent-filter>
-
-			<meta-data
-				android:name="android.accounts.AccountAuthenticator"
-				android:resource="@xml/authenticator" />
 
 			<meta-data
 				android:name="android.content.SyncAdapter"
 				android:resource="@xml/adapter" />
 		</service>
 
+		<service
+			android:name="com.kizio.suncorptest.sync.AuthenticatorService"
+			android:exported="true">
+
+			<intent-filter>
+				<action android:name="android.accounts.AccountAuthenticator"/>
+			</intent-filter>
+
+			<meta-data
+				android:name="android.accounts.AccountAuthenticator"
+				android:resource="@xml/authenticator" />
+		</service>
+
 		<provider
 			android:name="com.kizio.suncorptest.data.StatementProvider"
 			android:authorities="@string/authority"
-			android:exported="false"
+			android:contentAuthority="@string/authority"
+			android:exported="true"
 			android:syncable="true"/>
     </application>
 
